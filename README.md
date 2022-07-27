@@ -1,92 +1,106 @@
-# cloudnative-geotax-temporary
+# Geotax Deployment for Kubernetes
 
-internal gitlab project that will hold the initial changes before pushing recommendation for CloudNative GeoTax on public GITHUB.
+This sample demonstrates the deployment of the Geotax API in a cloud native environment.  It provides elastic REST endpoints for Get Taxrate by Location, Post Taxrate by Location, Get Taxrate by Address, Post Taxrate by Address that scale based on the number of active connections.
 
-## Getting started
+- [Geotax Application](#geotax-application)
+  - [Features](#features)
+- [Architecture](#architecture)
+  - [Cluster components](#cluster-components)
+  - [Using a Staging Service to install reference data](#using-a-staging-service-to-install-reference-data)
+  - [Reference data storage](#geotax-reference-data-storage)
+- [Cluster Performance Metrics and Autoscaling](#cluster-performance-metrics-and-autoscaling)
+  - [Metrics monitoring](#metrics-monitoring-active-number-of-connections)
+  - [Autoscaling](#autoscaling)
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+# Geotax Application
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+The Geotax SDK provides the following capabilities, which are available as REST web services in the Geotax application:
 
-## Add your files
+- **Get Taxrate by Location** - Retrieves tax rates applicable to a specific location. This service accepts longitude, latitude and supported tax rate type as inputs to retrieve applicable tax rates.
+- **Post Taxrate by Location** - This is a Batch offering for 'Taxrate By Location' service. It accepts a single location coordinate or a list of location coordinates and retrieve applicable tax rates.
+- **Get Taxrate by Address**: Retrieves tax rates applicable to a specific address. This service accepts address and supported tax rate type as inputs to retrieve applicable tax rates.
+- **Post Taxrate by Address** -This is a Batch offering for 'Taxrate By Address' service. It accepts a single address or a list of addresses and retrieve applicable tax rates.
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
 
-```
-cd existing_repo
-git remote add origin https://gitlab.com/preciselydata/location-intelligence/big-data/geotax/cloudnative-geotax-temporary.git
-git branch -M main
-git push -uf origin main
-```
+## Features
+-   Options that allow control of the searching and matching options, output results, and other preferences
+-   Highly configurable cluster using declarative configuration files
+-   Load balancing
+-   Cluster and pod autoscaling
 
-## Integrate with your tools
+For complete Geotax SDK documentation, see the [Geotax SDK Developer Guide]() (to be inserted).
 
-- [ ] [Set up project integrations](https://gitlab.com/preciselydata/location-intelligence/big-data/geotax/cloudnative-geotax-temporary/-/settings/integrations)
+# Architecture
 
-## Collaborate with your team
+The diagrams in this section illustrate the architecture of the Geotax application deployed in a AWS-hosted environment. The architecture and functionality is similar in the Google Cloud and Microsoft Azure environments except for the naming of some of the cluster components. 
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+## Cluster components
 
-## Test and Deploy
+The configured cluster includes:
 
-Use the built-in continuous integration in GitLab.
+-   A minimum of two worker nodes
+-   [NGINX](https://www.nginx.com/) for ingress monitoring and metrics
+-   [Prometheus](https://prometheus.io/) for metrics collection
+-   [Prometheus-Adapter](https://github.com/DirectXMan12/k8s-prometheus-adapter) for serving custom metrics
+-   Horizontal Pod Autoscaler \(HPA\)
+-   Kubernetes Cluster Autoscaler
+-   Geotax reference data installed locally or on cloud-hosted storage
+-   The deployed Geotax application
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+**Note:** Since cloud environments may have individual corporate requirements for naming conventions, security, and components, some adjustments will most likely be necessary.
 
-***
+## Reference data storage
 
-# Editing this README
+The geotax reference data must be available on the file system of the Pod running the Geotax application. This sample provides two approaches for deploying the reference data: locally and cloud-hosted. Both of these approaches involve attaching an NFS endpoint to the deployment definitions to access the data at runtime.
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
+### Local data storage
+In this diagram, the geotax reference data is deployed to the Geotax Service Pod using an [emptyDir](https://kubernetes.io/docs/concepts/storage/volumes/#emptydir)
+ volume, which is provided fresh for every restart. 
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+![Geotax application in a AWS hosted environment using local data storage](/images/architecture_aws_localdata.png)
 
-## Name
-Choose a self-explaining name for your project.
+### Cloud-hosted storage
+In this diagram, the geotax reference data is deployed to the Geotax Service Pod using a [persistent volume](https://kubernetes.io/docs/concepts/storage/persistent-volumes/). The persistent volume is backed by an Amazon Elastic File System (EFS) file system and the data is ready to use immediately when the volume is mounted to the pods.
+![Geotax application in a AWS hosted environment using cloud-hosted storage](/images/architecture_aws_efs.png)
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+#### Using a staging service to install reference data
+The staging service is a single pod used for preparing the geotax reference data for use on cloud storage; this eliminates manual data preparation for the initial installation as well as any future data updates. Upon startup, the staging service takes the listed SPD datasets and unpacks them to the data storage location so that the data is available immediately when the runtime cluster launches. After the data has been unpacked and tested, the staging service is no longer required and can be deleted.
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+Data updates are applied using a similar strategy: the cluster manifests for both staging and runtime can be updated with the latest SPDs in a new data location, and the staging service can be started while the existing runtime cluster is actively servicing requests. Using this approach results in data updates with zero downtime and very little manual intervention.
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+# Cluster Performance Metrics and Autoscaling 
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+To ensure high performance of the Geotax application in the Kubernetes cluster, several components are used to monitor and scale the cluster based on user load:
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+-   **NGINX Ingress Controller** -  load balances and gathers metrics for the active HTTP connections
+-   **Prometheus** - monitors and collects metrics
+-   **Prometheus Adapter** - custom metrics server providing number of active connections to the HPA
+-   **Horizontal Pod Autoscaler \(HPA\)** - scales the number of Pods in the Geotax Service based on the number of active connections
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+![cluster performance monitoring and scaling](/images/nginx_ingress_load_balancer.png)
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+## Metrics monitoring
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+The *number of active connections* is a custom metric collected by the ingress controller and is used to scale the resources available for the Geotax application. As the number of users connected to the ingress controller increases, the Geotax application HPA will increase the number of available pods. When the load decreases, the number of pods will be automatically reduced.
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+A third-party NGINX Ingress Controller is used to manage the Ingress resources in the cluster. The Geotax application requires a Kubernetes cluster with two worker nodes and a separate node for the NGINX Ingress Controller. For more information about the NGINX Ingress Controller, see [https://kubernetes.github.io/ingress-nginx/](https://kubernetes.github.io/ingress-nginx/).
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+Prometheus is installed for monitoring the application along with the Prometheus-Adapter to serve the custom metrics on which the Geotax application will autoscale. For more information about Prometheus, see [https://prometheus.io/](https://prometheus.io/); for info on Prometheus-Adapter, see [https://github.com/DirectXMan12/k8s-prometheus-adapter](https://github.com/DirectXMan12/k8s-prometheus-adapter).
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+## Autoscaling
 
-## License
-For open source projects, say how it is licensed.
+The Horizontal Pod Autoscaler automatically scales the number of pods requested based on the observed custom metrics utilization.  If the active nodes in the cluster cannot provide the resources requested to run the pods, the cluster autoscaler can scale the number of nodes up or down to match the load.
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+The number of active connections metric \(`nginx_active_connections`\) and its target value \(`targetAverageValue`\) are specified in the *gtx-hpa.yaml* resource manifest, which is used in the Geotax application deployment process.
+
+The following table provides the recommended HPA settings based on the countries used in the Geotax application.
+
+|Countries Supported|Recommended Settings for Number of Active Connections|
+|:--------------------------:|:---------------------------------------------------:|
+|USA only|18 - 20|
+|International (with or without USA)|12|
+
+---
+
+
+[**Next**: Geotax Application for Kubernetes Deployment Guide](kubernetes/README.md) 
