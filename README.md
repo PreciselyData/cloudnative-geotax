@@ -87,20 +87,4 @@ A third-party NGINX Ingress Controller is used to manage the Ingress resources i
 
 Prometheus is installed for monitoring the application along with the Prometheus-Adapter to serve the custom metrics on which the Geotax application will autoscale. For more information about Prometheus, see [https://prometheus.io/](https://prometheus.io/); for info on Prometheus-Adapter, see [https://github.com/DirectXMan12/k8s-prometheus-adapter](https://github.com/DirectXMan12/k8s-prometheus-adapter).
 
-## Autoscaling
-
-The Horizontal Pod Autoscaler automatically scales the number of pods requested based on the observed custom metrics utilization.  If the active nodes in the cluster cannot provide the resources requested to run the pods, the cluster autoscaler can scale the number of nodes up or down to match the load.
-
-The number of active connections metric \(`nginx_active_connections`\) and its target value \(`targetAverageValue`\) are specified in the *gtx-hpa.yaml* resource manifest, which is used in the Geotax application deployment process.
-
-The following table provides the recommended HPA settings based on the countries used in the Geotax application.
-
-|Countries Supported|Recommended Settings for Number of Active Connections|
-|:--------------------------:|:---------------------------------------------------:|
-|USA only|18 - 20|
-|International (with or without USA)|12|
-
----
-
-
 [**Next**: Geotax Application for Kubernetes Deployment Guide](kubernetes/README.md) 
