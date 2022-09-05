@@ -11,32 +11,33 @@ The image can be pushed to and stored in a cloud registry. Depending on the regi
    * [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) - for publishing to Amazon Elastic Container Registry (ECR).
  
  ### Download the SDK & data
-   * Geotax SDK war - For information about Geotax-SDK, see the [Precisely Support](https://support.precisely.com/) site and the [Geotax SDK Developer Guide]() documentation. (**TODO** -doc link to be inserted)
-   * Geotax reference data in `.spd` format -  For information about Precisely's data portfolio, see the [Precisely Data Guide](https://dataguide.precisely.com/) where you can also sign up for a free account and access sample data available in [Precisely Data Experience](https://data.precisely.com/). 
+   * Geotax SDK war - For information about Geotax-SDK, see the [Precisely Support](https://support.precisely.com/) site.
+   * Geotax reference data in `.zip` format -  For information about Precisely's data portfolio, see the [Precisely Data Guide](https://dataguide.precisely.com/) where you can also sign up for a free account and access sample data available in [Precisely Data Experience](https://data.precisely.com/). 
 
 ## Build the Docker image
 The geotax Docker sample contains a [Dockerfile](Dockerfile) which will be used to build the docker image.
 
 1. If you haven't already, clone or download this repository to your computer. 
 2. Copy the Geotax SDK war file in `<sample-directory>/docker/geotax/gtx` directory.
-3. Build & push the Docker image by running the following command from the `<sample-directory>/docker/geotax` directory, where: 
+3. Copy the Geotax binaries (taxing-resources folder) in `<sample-directory>/docker/geotax/gtx` directory.
+4. Build & push the Docker image by running the following command from the `<sample-directory>/docker/geotax` directory, where: 
    - `-t [IMAGE]` - image name or ID, and optionally a tag in the ‘name:tag’ format
 	  
    ```
    docker build -t [IMAGE] .
    ```
-4. Verify the image built successfully and is stored in the local repository. Your image should be listed after running the following command:
+5. Verify the image built successfully and is stored in the local repository. Your image should be listed after running the following command:
    ```
    docker image ls
    ```
-5. Push the image to the remote repository:
+6. Push the image to the remote repository:
        
    #### Amazon ECR
    Use one of the following methods to push your image to your remote repository. We’ve provided some example steps but you can refer to the [Amazon documentation](https://docs.aws.amazon.com/AmazonECR/latest/userguide/docker-push-ecr-image.html) for additional support.
 
    You may need to first set up your environment by running the `_aws_configure_` command.
 
-	Login to the ECR repository:
+    Login to the ECR repository:
 	   
    ```
    aws ecr get-login-password --region [REGION] | docker login --username AWS --password-stdin [AWS-ACCOUNT-ID].dkr.ecr.[REGION].amazonaws.com
