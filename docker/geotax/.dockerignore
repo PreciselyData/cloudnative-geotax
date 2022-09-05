@@ -1,5 +1,6 @@
 *
 !gtx/*.war
+!gtx/taxing-resources
 !gtx/webapp
 !gtx/cli
 !gtx/resources/config

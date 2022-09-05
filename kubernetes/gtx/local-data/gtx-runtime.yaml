@@ -43,7 +43,6 @@ spec:
           mountPath: /usr/local/gtx-storage-secrets
         resources:
           requests:
-#           TODO -resource request to be updated
             cpu: 6
             memory: 20Gi
         env:
@@ -70,7 +69,6 @@ spec:
         env:
         - name: GTX_DATA
           value: /usr/local/gtx-data
-#         TODO -need GEOSTAN resource details
         - name: _GEOSTAN_JOURNAL_FILE
           value: $(GTX_DATA)/geostan.txt
         - name: POD_CPU_LIMIT

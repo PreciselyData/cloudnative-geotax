@@ -18,8 +18,8 @@ The Geotax SDK provides the following capabilities, which are available as REST 
 
 - **Get Taxrate by Location** - Retrieves tax rates applicable to a specific location. This service accepts longitude, latitude and supported tax rate type as inputs to retrieve applicable tax rates.
 - **Post Taxrate by Location** - This is a Batch offering for 'Taxrate By Location' service. It accepts a single location coordinate or a list of location coordinates and retrieve applicable tax rates.
-- **Get Taxrate by Address**: Retrieves tax rates applicable to a specific address. This service accepts address and supported tax rate type as inputs to retrieve applicable tax rates.
-- **Post Taxrate by Address** -This is a Batch offering for 'Taxrate By Address' service. It accepts a single address or a list of addresses and retrieve applicable tax rates.
+- **Get Taxrate by Address** - Retrieves tax rates applicable to a specific address. This service accepts address and supported tax rate type as inputs to retrieve applicable tax rates.
+- **Post Taxrate by Address** - This is a Batch offering for 'Taxrate By Address' service. It accepts a single address or a list of addresses and retrieve applicable tax rates.
 
 
 ## Features

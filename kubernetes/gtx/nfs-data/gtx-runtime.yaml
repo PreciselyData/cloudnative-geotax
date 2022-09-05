@@ -27,7 +27,6 @@ spec:
               name: http
           resources:
             requests:
-#             TODO -resource request to be updated
               cpu: 6
               memory: 20Gi
           volumeMounts:
