@@ -1,6 +1,6 @@
 # Geotax Deployment for Kubernetes
 
-This sample demonstrates the deployment of the Geotax API in a cloud native environment.  It provides elastic REST endpoints for Get Taxrate by Location, Post Taxrate by Location, Get Taxrate by Address, Post Taxrate by Address that scale based on the number of active connections.
+This sample demonstrates the deployment of the Geotax API in a cloud native environment.  It provides elastic REST endpoints for Get Taxrate by Address, Post Taxrate by Address that scale based on the number of active connections.
 
 - [Geotax Application](#geotax-application)
   - [Features](#features)
@@ -16,8 +16,6 @@ This sample demonstrates the deployment of the Geotax API in a cloud native envi
 
 The Geotax SDK provides the following capabilities, which are available as REST web services in the Geotax application:
 
-- **Get Taxrate by Location** - Retrieves tax rates applicable to a specific location. This service accepts longitude, latitude and supported tax rate type as inputs to retrieve applicable tax rates.
-- **Post Taxrate by Location** - This is a Batch offering for 'Taxrate By Location' service. It accepts a single location coordinate or a list of location coordinates and retrieve applicable tax rates.
 - **Get Taxrate by Address** - Retrieves tax rates applicable to a specific address. This service accepts address and supported tax rate type as inputs to retrieve applicable tax rates.
 - **Post Taxrate by Address** - This is a Batch offering for 'Taxrate By Address' service. It accepts a single address or a list of addresses and retrieve applicable tax rates.
 
@@ -27,8 +25,6 @@ The Geotax SDK provides the following capabilities, which are available as REST 
 -   Highly configurable cluster using declarative configuration files
 -   Load balancing
 -   Cluster and pod autoscaling
-
-For complete Geotax SDK documentation, see the [Geotax SDK Developer Guide]() (to be inserted).
 
 # Architecture
 
