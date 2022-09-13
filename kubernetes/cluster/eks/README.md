@@ -1,14 +1,14 @@
 # Amazon EKS Cluster Setup Guide 
-The [Amazon Elastic Kubernetes Service (EKS)](https://docs.aws.amazon.com/eks/latest/userguide/what-is-eks.html) is a fully managed Kubernetes service. This readme provides the steps to create an EKS cluster to deploy the Geotax application built with *Geotax SDK*.
+The [Amazon Elastic Kubernetes Service (EKS)](https://docs.aws.amazon.com/eks/latest/userguide/what-is-eks.html) is a fully managed Kubernetes service. This readme provides the steps to create an EKS cluster to deploy the GeoTAX application built with *GeoTAX SDK*.
 
 ## Prerequisites
 
-The Geotax sample on Amazon EKS requires access to [S3](https://aws.amazon.com/s3/) and [Amazon Elastic Container Registry (ECR)](https://docs.aws.amazon.com/AmazonECR/latest/userguide/Registries.html). AWS S3 is used to store the reference datasets, and the AWS ECR repository contains the Geotax application Docker image which is used by the application during runtime. 
+The GeoTAX sample on Amazon EKS requires access to [S3](https://aws.amazon.com/s3/) and [Amazon Elastic Container Registry (ECR)](https://docs.aws.amazon.com/AmazonECR/latest/userguide/Registries.html). AWS S3 is used to store the reference datasets, and the AWS ECR repository contains the GeoTAX application Docker image which is used by the application during runtime. 
 
-Running the Geotax application in EKS requires permissions on these AWS resources along with some others listed below.
+Running the GeoTAX application in EKS requires permissions on these AWS resources along with some others listed below.
 
 ### AWS IAM Permissions
-To deploy the Geotax application on an EKS cluster, make sure you have the necessary permissions listed below:
+To deploy the GeoTAX application on an EKS cluster, make sure you have the necessary permissions listed below:
 
    * [Permissions to create/manage the Clusters](https://docs.aws.amazon.com/eks/latest/userguide/service_IAM_role.html)
    * [Permissions to create/manage the Nodes](https://docs.aws.amazon.com/eks/latest/userguide/create-node-role.html)

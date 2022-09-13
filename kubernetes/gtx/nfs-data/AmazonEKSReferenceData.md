@@ -1,8 +1,8 @@
-# Geotax Reference Data on Amazon Elastic File System (EFS)
+# GeoTAX Reference Data on Amazon Elastic File System (EFS)
 
-This sample demonstrates using a [persistent volume](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) backed by [Amazon EFS](https://aws.amazon.com/efs/) to store the reference data which will be accessed by the Geotax application at runtime. To initialize the persistent volume, it is mounted to a separate, temporary, deployment of the Geotax application – the “staging” deployment.  When the staging deployment starts, the data is copied from S3 and extracted to the persistent volume.  Once the data has been initialized, the staging deployment can be stopped and the temporary resources can be deleted.  The Geotax application will then access the reference data by mounting the same persistent volume that had just been initialized by the staging deployment.
+This sample demonstrates using a [persistent volume](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) backed by [Amazon EFS](https://aws.amazon.com/efs/) to store the reference data which will be accessed by the GeoTAX application at runtime. To initialize the persistent volume, it is mounted to a separate, temporary, deployment of the GeoTAX application – the “staging” deployment.  When the staging deployment starts, the data is copied from S3 and extracted to the persistent volume.  Once the data has been initialized, the staging deployment can be stopped and the temporary resources can be deleted.  The GeoTAX application will then access the reference data by mounting the same persistent volume that had just been initialized by the staging deployment.
 
-This reference data deployment process needs to be executed only once for the Geotax application deployment. You only need to re-run it when you want to update the deployed data, such as with a new vintage.  At that time, you can use the staging process to prepare a new, separate, persistent volume and then update your running deployment of the Geotax application to use that new persistent volume with zero application downtime.
+This reference data deployment process needs to be executed only once for the GeoTAX application deployment. You only need to re-run it when you want to update the deployed data, such as with a new vintage.  At that time, you can use the staging process to prepare a new, separate, persistent volume and then update your running deployment of the GeoTAX application to use that new persistent volume with zero application downtime.
 
 ## Create and configure an EFS file system
 The following directions will guide you through the process of preparing an EFS file system for your deployment by using the AWS CLI.  If you have already created and configured an EFS file system that you want to use, and it is accessible from your EKS cluster, then you can skip this step and move on to the next.
@@ -138,9 +138,9 @@ If you don’t have your EFS FileSystemId, see “Query the FileSystemId for you
        volumeAttributes:
        path: /
    ```  
-#### 4. Add the Geotax application Docker image URI.
+#### 4. Add the GeoTAX application Docker image URI.
 In the `./gtx/nfs-data/gtx-staging.yaml` file, replace:
-- `@IMAGE_URI@` - the URI of the Geotax application Docker image stored in the ECR Repository in the `image` parameter. The `@IMAGE_URI@` parameter needs to be replaced in two places.
+- `@IMAGE_URI@` - the URI of the GeoTAX application Docker image stored in the ECR Repository in the `image` parameter. The `@IMAGE_URI@` parameter needs to be replaced in two places.
   ```
   initContainers:
      - name: gtx-dataprep-container
@@ -153,7 +153,7 @@ In the `./gtx/nfs-data/gtx-staging.yaml` file, replace:
         image: @IMAGE_URI@
   ```  
 ## Start the staging deployment
-If you haven't already deployed the geotax datasets, and data preparation script config maps, then deploy the following manifest files:
+If you haven't already deployed the GeoTAX datasets, and data preparation script config maps, then deploy the following manifest files:
 ```
 kubectl apply -f ./gtx/gtx-datasets-cm.yaml
 kubectl apply -f ./gtx/gtx-dataprep-cm.yaml
@@ -175,13 +175,13 @@ kubectl logs -f -l app=gtx-dataprep -c gtx-dataprep-container
 ```
 
 ## Verify the reference data deployment
-To verify that the reference data successfully deployed, you can issue a request to the Geotax service.
+To verify that the reference data successfully deployed, you can issue a request to the GeoTAX service.
 
 1. Locate your service's external URL and port number:
     ```
     kubectl get services -l app=gtx-dataprep
     ```
-2. Use the external URL and port number to access the Geotax application test page in a browser.
+2. Use the external URL and port number to access the GeoTAX application test page in a browser.
 The URL should be formatted like this:
               
     `http://<External-IP>:<port>/`             
@@ -194,5 +194,5 @@ After verifying the data, the staging resources are no longer needed and can be 
 kubectl delete -f ./gtx/nfs-data/gtx-staging.yaml
 ```
 ## Next step
-Now that the persistent volume has been created and the reference data has been configured on your EFS file system, you can mount the persistent volume to use that data in your [Geotax application deployment](../../README.md).
+Now that the persistent volume has been created and the reference data has been configured on your EFS file system, you can mount the persistent volume to use that data in your [GeoTAX application deployment](../../README.md).
 

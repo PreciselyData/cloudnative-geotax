@@ -35,7 +35,7 @@ fi
 (cd $GTX_HOME/cli; sh ./cli.sh configure --s $GTX_DATA --d $GTX_HOME/resources/config)
 (cd $GTX_HOME/cli; sh ./cli.sh setting --d $GTX_HOME/resources/config --t USA --n REMOTE --v $remote)
 (cd $GTX_HOME/cli; sh ./cli.sh setting --d $GTX_HOME/resources/config --t USA --n POOL_MAX_ACTIVE --v $maxPoolActive)
- echo "Deploying the Geotax application with settings: [REMOTE:$remote, POOL_MAX_ACTIVE:$maxPoolActive]"
+ echo "Deploying the GeoTAX application with settings: [REMOTE:$remote, POOL_MAX_ACTIVE:$maxPoolActive]"
 
 # Need to start tomcat because we overrode the tomcat startup CMD in our dockerfile
 catalina.sh run

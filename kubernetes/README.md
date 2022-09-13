@@ -1,21 +1,21 @@
-# Geotax Application for Kubernetes Deployment Guide
-This guide provides detailed instructions for deploying the sample Geotax API in a Kubernetes environment.
+# GeoTAX Application for Kubernetes Deployment Guide
+This guide provides detailed instructions for deploying the sample GeoTAX API in a Kubernetes environment.
 
 ## Install client tools
-To deploy the Geotax application in a Kubernetes environment, install the following client tools that are applicable to your environment:
+To deploy the GeoTAX application in a Kubernetes environment, install the following client tools that are applicable to your environment:
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 - [Helm 3](https://helm.sh/docs/intro/install/)
 ##### Amazon Elastic Kubernetes Service (EKS)
 - [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
 - [eksctl](https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html)
 
-## Deploy the Geotax application Docker image
-The Geotax application is packaged as a Docker image and should be deployed to an accessible container registry, such as [Amazon ECR](https://docs.aws.amazon.com/AmazonECR/latest/userguide/Registries.html) for [EKS](https://docs.aws.amazon.com/eks/latest/userguide/what-is-eks.html).
+## Deploy the GeoTAX application Docker image
+The GeoTAX application is packaged as a Docker image and should be deployed to an accessible container registry, such as [Amazon ECR](https://docs.aws.amazon.com/AmazonECR/latest/userguide/Registries.html) for [EKS](https://docs.aws.amazon.com/eks/latest/userguide/what-is-eks.html).
 
-To build using the provided Geotax REST APIs, see [docker/geotax](../docker/geotax)
+To build using the provided GeoTAX REST APIs, see [docker/geotax](../docker/geotax)
 
 ## Create the Kubernetes cluster
-The sample geotax application requires a Kubernetes cluster with at least one node to run the Geotax application and a separate node for the NGINX ingress controller. This sample cluster will scale the number of nodes available for running the Geotax application up to a maximum of 10, based on user load.
+The sample GeoTAX application requires a Kubernetes cluster with at least one node to run the GeoTAX application and a separate node for the NGINX ingress controller. This sample cluster will scale the number of nodes available for running the GeoTAX application up to a maximum of 10, based on user load.
 
 ##### Amazon EKS
 >To create an Amazon EKS cluster, follow the instructions in [README.md](./cluster/eks/README.md). 
@@ -27,7 +27,7 @@ helm repo add stable https://charts.helm.sh/stable
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 ```
 ## Deploy the NGINX Ingress Controller and Prometheus-Adapter with Prometheus
-   The Geotax application uses the NGINX Ingress Controller as a load balancer in order to monitor the number of active users. In addition,  Prometheus-Adapter is installed along with Prometheus Server in order to provide this data as custom metrics in Kubernetes, which the Geotax application uses to autoscale. 
+   The GeoTAX application uses the NGINX Ingress Controller as a load balancer in order to monitor the number of active users. In addition,  Prometheus-Adapter is installed along with Prometheus Server in order to provide this data as custom metrics in Kubernetes, which the GeoTAX application uses to autoscale. 
    1. Install Prometheus Server using Helm:      
       ```
       helm install prometheus prometheus-community/prometheus
@@ -88,7 +88,7 @@ kubectl create secret generic gtx-storage-secrets --from-file=./gtx/gtx-storage-
 ``` 
 
 ## Configure the reference datasets
-The Geotax application requires geotax reference datasets, which are .spd files that must be available on [S3](https://aws.amazon.com/s3/) for EKS. The datasets will be accessed from the `./gtx/gtx-datasets-cm.yaml` config map.
+The GeoTAX application requires GeoTAX reference datasets, which are .spd files that must be available on [S3](https://aws.amazon.com/s3/) for EKS. The datasets will be accessed from the `./gtx/gtx-datasets-cm.yaml` config map.
 
 * If you have not already downloaded the reference data, for information about Precisely's data portfolio, see the [Precisely Data Guide](https://dataguide.precisely.com/) where you can also sign up for a free account and access sample data available in [Precisely Data Experience](https://data.precisely.com/).
 
@@ -116,23 +116,23 @@ Run these commands:
    kubectl apply -f ./gtx/gtx-hpa.yaml  
    ```
 
-## Deploy the Geotax application
-Geotax SDK requires the reference data to be available on the file system of the pod running the geotax service. Due to the size of the reference data, the data is managed outside of the docker image and configured during deployment. Two options for configuring the reference data are provided:
+## Deploy the GeoTAX application
+GeoTAX SDK requires the reference data to be available on the file system of the pod running the GeoTAX service. Due to the size of the reference data, the data is managed outside of the docker image and configured during deployment. Two options for configuring the reference data are provided:
 
 - Option A: The reference data is initialized on an [emptyDir volume](https://kubernetes.io/docs/concepts/storage/volumes/#emptydir)
 - Option B: The reference data is initialized on a [persistent volume](https://kubernetes.io/docs/concepts/storage/volumes/#nfs)
 
 #### Option A: Reference data is initialized on an emptyDir volume
-This is the simplest approach to deploy the Geotax application. During startup, a geotax pod copies the data from Cloud Storage (S3) to an emptyDir volume that's mounted to a local directory.
+This is the simplest approach to deploy the GeoTAX application. During startup, a GeoTAX pod copies the data from Cloud Storage (S3) to an emptyDir volume that's mounted to a local directory.
 
-**Note**: Each new geotax pod copies the data from the storage bucket to the local directory. This increases the pod startup time, so this approach may not be appropriate for production usage where faster startup time is required.
+**Note**: Each new GeoTAX pod copies the data from the storage bucket to the local directory. This increases the pod startup time, so this approach may not be appropriate for production usage where faster startup time is required.
 
 Steps to deploy:
 
-  1. Add the Geotax application Docker image URI.
+  1. Add the GeoTAX application Docker image URI.
      
      For this, move to the `./gtx/local-data/gtx-runtime.yaml` file and replace:
-     - `@IMAGE_URI@` - the URI of the Geotax application Docker image stored in the Docker repository in the `image` parameter. The `@IMAGE_URI@` parameter needs to be replaced in two places.
+     - `@IMAGE_URI@` - the URI of the GeoTAX application Docker image stored in the Docker repository in the `image` parameter. The `@IMAGE_URI@` parameter needs to be replaced in two places.
       ```
           initContainers:
              - name: gtx-dataprep-container
@@ -145,24 +145,24 @@ Steps to deploy:
                  image: @IMAGE_URI@
        ```  
  
-  2. Deploy the Geotax application runtime: 
+  2. Deploy the GeoTAX application runtime: 
      
      ```
        kubectl apply -f ./gtx/local-data/gtx-runtime.yaml
      ``` 
 #### Option B: Reference data is initialized on a persistent volume
-This approach minimizes pod startup time by preparing the reference data ahead of deployment on a shared persistent volume.  The deployment of the geotax data using a persistent volume is a 2-step process:
+This approach minimizes pod startup time by preparing the reference data ahead of deployment on a shared persistent volume.  The deployment of the GeoTAX data using a persistent volume is a 2-step process:
 
   1. Configure the persistent volume with reference data.
-  2. Deploy the geotax application using the data from the persistent volume.
+  2. Deploy the GeoTAX application using the data from the persistent volume.
 
  #### 1. Configure the persistent volume with reference data
  This sample demonstrates configuring a persistent volume backed by high performance cloud based file storage.  Though the steps outlined are written for specific products (`Amazon EFS`), the process is generally applicable for other persistent volume types as well. Follow the steps below based on your platform.
  ##### Amazon EKS
- >To deploy the geotax reference data using [Amazon Elastic File System](https://aws.amazon.com/efs/), follow the instructions in [AmazonEKSReferenceData.md](gtx/nfs-data/AmazonEKSReferenceData.md).
+ >To deploy the GeoTAX reference data using [Amazon Elastic File System](https://aws.amazon.com/efs/), follow the instructions in [AmazonEKSReferenceData.md](gtx/nfs-data/AmazonEKSReferenceData.md).
 
-#### 2. Deploy the geotax application using the data from the persistent volume
-The Geotax application uses the same persistent volume where you deployed the reference data in the previous step. 
+#### 2. Deploy the GeoTAX application using the data from the persistent volume
+The GeoTAX application uses the same persistent volume where you deployed the reference data in the previous step. 
  To deploy the application:
  
    - Deploy the persistent volume:
