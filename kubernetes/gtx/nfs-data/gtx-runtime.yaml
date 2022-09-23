@@ -27,8 +27,8 @@ spec:
               name: http
           resources:
             requests:
-              cpu: 6
-              memory: 20Gi
+              cpu: 2
+              memory: 8Gi
           volumeMounts:
             - name: gtx-data
               mountPath: /usr/local/gtx-data

@@ -9,7 +9,7 @@ RUN apk update \
     && apk add mpc1-dev \
     && apk add gmp-dev \
     && apk add mpfr-dev \
-    && apk add libc-dev \
+    && apk add libc-dev
 
 RUN cd /tmp \
     && mkdir /usr/local/rclone \
@@ -19,6 +19,7 @@ RUN cd /tmp \
     && rm -r /tmp/rclone*
 
 ENV LD_LIBRARY_PATH=/usr/local/gtx/taxing-resources/bin/linux64
+ENV JAVA_TOOL_OPTIONS='-Xmx6g -Xms2g'
 
 WORKDIR /usr/local/gtx
 EXPOSE 8080
