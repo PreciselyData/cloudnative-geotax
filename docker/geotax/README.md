@@ -1,6 +1,6 @@
 # Sample GeoTAX Application for Docker
 
-A sample GeoTAX application that is containerized in Docker. This sample demonstrates the Taxrate information based upon Location and Address (GET/POST) features of the *GeoTAX SDK* running inside a Docker container. The GeoTAX application image can then be deployed into a Kubernetes environment. For deployment instructions, see the [GeoTAX Application for Kubernetes Deployment Guide](../../k8s/README.md).    
+A sample GeoTAX application that is containerized in Docker. This sample demonstrates the Taxrate information based upon Address (GET/POST) features of the *GeoTAX SDK* running inside a Docker container. The GeoTAX application image can then be deployed into a Kubernetes environment. For deployment instructions, see the [GeoTAX Application for Kubernetes Deployment Guide](../../kubernetes/README.md).    
 
 ## Prerequisites
 ### Install the client tools 
@@ -11,7 +11,7 @@ The image can be pushed to and stored in a cloud registry. Depending on the regi
    * [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) - for publishing to Amazon Elastic Container Registry (ECR).
  
  ### Download the SDK & data
-   * GeoTAX SDK war - For information about GeoTAX-SDK, see the [Precisely Support](https://support.precisely.com/) site.
+   * GeoTAX SDK distribution zip - For information about GeoTAX-SDK, see the [Precisely Support](https://support.precisely.com/) site.
    * GeoTAX reference data in `.zip` format -  For information about Precisely's data portfolio, see the [Precisely Data Guide](https://dataguide.precisely.com/) where you can also sign up for a free account and access sample data available in [Precisely Data Experience](https://data.precisely.com/). 
 
 ## Build the Docker image
