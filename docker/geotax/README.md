@@ -12,7 +12,7 @@ The image can be pushed to and stored in a cloud registry. Depending on the regi
  
  ### Download the SDK & data
    * GeoTAX SDK distribution zip - For information about GeoTAX-SDK, see the [Precisely Support](https://support.precisely.com/) site.
-   * GeoTAX reference data in `.zip` format -  For information about Precisely's data portfolio, see the [Precisely Data Guide](https://dataguide.precisely.com/) where you can also sign up for a free account and access sample data available in [Precisely Data Experience](https://data.precisely.com/). 
+   * GeoTAX reference data -  For information about Precisely's data portfolio, see the [Precisely Data Guide](https://dataguide.precisely.com/) where you can also sign up for a free account and access sample data available in [Precisely Data Experience](https://data.precisely.com/). 
 
 ## Build the Docker image
 The GeoTAX Docker sample contains a [Dockerfile](Dockerfile) which will be used to build the docker image.

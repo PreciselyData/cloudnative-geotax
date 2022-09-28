@@ -1,16 +1,17 @@
 # GeoTAX Deployment for Kubernetes
 
-This sample demonstrates the deployment of the GeoTAX API in a cloud native environment.  It provides elastic REST endpoints for Get Taxrate by Address, Post Taxrate by Address that scale based on the number of active connections.
+This sample demonstrates the deployment of the GeoTAX API in a cloud native environment.  It provides elastic REST endpoints for Get Taxrate by Address and Post Taxrate by Address that scale based on the number of active connections.
 
 - [GeoTAX Application](#geotax-application)
   - [Features](#features)
 - [Architecture](#architecture)
   - [Cluster components](#cluster-components)
+  - [Reference data storage](#reference-data-storage)
   - [Using a Staging Service to install reference data](#using-a-staging-service-to-install-reference-data)
-  - [Reference data storage](#geotax-reference-data-storage)
 - [Cluster Performance Metrics and Autoscaling](#cluster-performance-metrics-and-autoscaling)
-  - [Metrics monitoring](#metrics-monitoring-active-number-of-connections)
+  - [Metrics monitoring](#metrics-monitoring)
   - [Autoscaling](#autoscaling)
+- [ETM to GeoTAX API Field Mapping Guide](#etm-to-geotax-api-field-mapping-guide)
 
 # GeoTAX Application
 
@@ -18,7 +19,6 @@ The GeoTAX SDK provides the following capabilities, which are available as REST 
 
 - **Get Taxrate by Address** - Retrieves tax rates applicable to a specific address. This service accepts address and supported tax rate type as inputs to retrieve applicable tax rates.
 - **Post Taxrate by Address** - This is a Batch offering for 'Taxrate By Address' service. It accepts a single address or a list of addresses and retrieve applicable tax rates.
-
 
 ## Features
 -   Options that allow control of the searching and matching options, output results, and other preferences
@@ -28,9 +28,9 @@ The GeoTAX SDK provides the following capabilities, which are available as REST 
 
 # Architecture
 
-The diagrams in this section illustrate the architecture of the GeoTAX application deployed in a AWS-hosted environment. The architecture and functionality is similar in the Google Cloud and Microsoft Azure environments except for the naming of some of the cluster components. 
+The diagrams in this section illustrate the architecture of the GeoTAX application deployed in an AWS-hosted environment. The architecture and functionality is similar in the Google Cloud and Microsoft Azure environments except for the naming of some of the cluster components. 
 
-## Cluster components
+## Cluster Components
 
 The configured cluster includes:
 
@@ -57,6 +57,7 @@ In this diagram, the GeoTAX reference data is deployed to the GeoTAX Service Pod
 
 ### Cloud-hosted storage
 In this diagram, the GeoTAX reference data is deployed to the GeoTAX Service Pod using a [persistent volume](https://kubernetes.io/docs/concepts/storage/persistent-volumes/). The persistent volume is backed by an Amazon Elastic File System (EFS) file system and the data is ready to use immediately when the volume is mounted to the pods.
+
 ![GeoTAX application in a AWS hosted environment using cloud-hosted storage](/images/architecture_aws_efs.png)
 
 #### Using a staging service to install reference data
@@ -87,7 +88,7 @@ Prometheus is installed for monitoring the application along with the Prometheus
 
 The Horizontal Pod Autoscaler automatically scales the number of pods requested based on the observed custom metrics utilization.  If the active nodes in the cluster cannot provide the resources requested to run the pods, the cluster autoscaler can scale the number of nodes up or down to match the load.
 
-The number of active connections metric (`nginx_active_connections`) and its target value (`targetAverageValue`) are specified in the *gtx-hpa.yaml* resource manifest, which is used in the GeoTAX application deployment process.
+The number of active connections metric (`nginx_active_connections`) and its target value (`targetAverageValue`) are specified in the [gtx-hpa.yaml](kubernetes/gtx/gtx-hpa.yaml) resource manifest, which is used in the GeoTAX application deployment process.
 
 The following table provides the recommended CPU, Memory and Number of Active Connections settings for HPA used in this sample for GeoTAX application.
 
@@ -95,7 +96,12 @@ The following table provides the recommended CPU, Memory and Number of Active Co
 |:---------------------------------:|:---------------------------------------------------:|
 |CPU |2|
 |Memory |8Gi|
-|Number of Active Connections |20|
+|Number of Active Connections |10|
+
+## ETM to GeoTAX API Field Mapping Guide
+
+Users migrating from ETM to GeoTAX API can refer to the field mapping details provided at [ETM to GeoTAX API Field Mapping](etm2api/README.md).
+
 ---
 
 [**Next**: GeoTAX Application for Kubernetes Deployment Guide](kubernetes/README.md) 

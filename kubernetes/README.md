@@ -12,10 +12,10 @@ To deploy the GeoTAX application in a Kubernetes environment, install the follow
 ## Deploy the GeoTAX application Docker image
 The GeoTAX application is packaged as a Docker image and should be deployed to an accessible container registry, such as [Amazon ECR](https://docs.aws.amazon.com/AmazonECR/latest/userguide/Registries.html) for [EKS](https://docs.aws.amazon.com/eks/latest/userguide/what-is-eks.html).
 
-To build using the provided GeoTAX REST APIs, see [docker/geotax](../docker/geotax)
+To build using the provided GeoTAX REST APIs, see [Sample GeoTAX Application for Docker](../docker/geotax/README.md)
 
 ## Create the Kubernetes cluster
-The sample GeoTAX application requires a Kubernetes cluster with at least one node to run the GeoTAX application and a separate node for the NGINX ingress controller. This sample cluster will scale the number of nodes available for running the GeoTAX application up to a maximum of 10, based on user load.
+The sample GeoTAX application requires a Kubernetes cluster with at least one node to run the GeoTAX application and a separate node for the NGINX ingress controller. This sample cluster will scale the number of nodes available for running the GeoTAX application up to a maximum of 5, based on user load.
 
 ##### Amazon EKS
 >To create an Amazon EKS cluster, follow the instructions in [README.md](./cluster/eks/README.md). 
@@ -73,7 +73,7 @@ helm repo add prometheus-community https://prometheus-community.github.io/helm-c
 
 ## Update credentials in Kubernetes secret
 
-This is required to access .spd files from cloud storage. Place all credentials related information in the `./gtx/gtx-storage-secrets` folder.  Update the `./gtx/gtx-storage-secrets/rclone.conf` file with the appropriate configuration.  This file is already populated with sample configurations and placeholders for key information.  If there are supporting files needed for configuration, like service account JSON files, they should also be placed in this folder.  This folder will be mounted to the data preparation container at `/usr/local/gtx-storage-secrets`.
+This is required to access data files from cloud storage. Place all credentials related information in the `./gtx/gtx-storage-secrets` folder.  Update the `./gtx/gtx-storage-secrets/rclone.conf` file with the appropriate configuration.  This file is already populated with sample configurations and placeholders for key information.  If there are supporting files needed for configuration, like service account JSON files, they should also be placed in this folder.  This folder will be mounted to the data preparation container at `/usr/local/gtx-storage-secrets`.
 
 ##### Amazon [S3](https://aws.amazon.com/s3/)
 
@@ -108,6 +108,8 @@ kubectl apply -f ./gtx/gtx-datasets-cm.yaml
 ## Deploy the shared resources
 These resources will be described the same across all Kubernetes platforms.
 
+**Note:** Since the data files could either be zipped or unzipped, we have provided options in the `./gtx/gtx-dataprep-cm.yaml` file to execute the required code snippet and comment out the other. 
+
 Run these commands:   
    ```  
    kubectl apply -f ./gtx/gtx-dataprep-cm.yaml 
@@ -125,7 +127,7 @@ GeoTAX SDK requires the reference data to be available on the file system of the
 #### Option A: Reference data is initialized on an emptyDir volume
 This is the simplest approach to deploy the GeoTAX application. During startup, a GeoTAX pod copies the data from Cloud Storage (S3) to an emptyDir volume that's mounted to a local directory.
 
-**Note**: Each new GeoTAX pod copies the data from the storage bucket to the local directory. This increases the pod startup time, so this approach may not be appropriate for production usage where faster startup time is required.
+**Note**: Each new GeoTAX pod copies the data from the storage bucket to the local directory. This increases the pod startup time, so this approach may not be appropriate for production usage where faster startup time is preferred.
 
 Steps to deploy:
 
@@ -140,9 +142,9 @@ Steps to deploy:
        ```
        and
        ```
-             containers:
-               - name: gtx-container
-                 image: @IMAGE_URI@
+          containers:
+             - name: gtx-container
+               image: @IMAGE_URI@
        ```  
  
   2. Deploy the GeoTAX application runtime: 
