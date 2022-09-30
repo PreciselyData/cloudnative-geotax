@@ -96,7 +96,7 @@ The following table provides the recommended CPU, Memory and Number of Active Co
 |:---------------------------------:|:---------------------------------------------------:|
 |CPU |2|
 |Memory |8Gi|
-|Number of Active Connections |10|
+|Number of Active Connections |7|
 
 ## ETM to GeoTAX API Field Mapping Guide
 
