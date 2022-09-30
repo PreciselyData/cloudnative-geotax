@@ -18,7 +18,7 @@ The image can be pushed to and stored in a cloud registry. Depending on the regi
 The GeoTAX Docker sample contains a [Dockerfile](Dockerfile) which will be used to build the docker image.
 
 1. If you haven't already, clone or download this repository to your computer.
-3. Extract GeoTAX distribution's zip and copy the GeoTAX war file from `geotax-dist-<version>/webapp/geotax-rest-war-<version>.war` to `<sample-directory>/docker/geotax/gtx` directory.
+3. Extract GeoTAX distribution's zip and copy the GeoTAX war file from `geotax-dist-<version>/webapp/geotax-api-<version>.war` to `<sample-directory>/docker/geotax/gtx` directory.
 4. Copy the `geotax-dist-<version>/taxing-resources` directory (GeoTAX binaries) in `<sample-directory>/docker/geotax/gtx` directory.
 5. Build & push the Docker image by running the following command from the `<sample-directory>/docker/geotax` directory, where: 
    - `-t [IMAGE]` - image name or ID, and optionally a tag in the ‘name:tag’ format

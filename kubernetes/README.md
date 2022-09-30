@@ -182,6 +182,9 @@ The GeoTAX application uses the same persistent volume where you deployed the re
      ```
      kubectl apply -f ./gtx/nfs-data/gtx-runtime.yaml
      ``` 
+
+**Note:**  For better performance in production usage, minimum number of replicas can be set to 2 or more as per the GeoTAX application requirements.
+
 ## Access the Geotax application
 Once the above steps have completed, the Geotax application is up and running. You can access the Geotax services endpoints using a web browser. You can also use a Web Service invocation tool to access the REST service endpoints available in the application.
 

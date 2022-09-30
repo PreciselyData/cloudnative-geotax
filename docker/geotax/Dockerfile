@@ -23,4 +23,4 @@ ENV JAVA_TOOL_OPTIONS='-Xmx6g -Xms2g'
 
 WORKDIR /usr/local/gtx
 EXPOSE 8080
-CMD java -XX:+UseCompressedOops -XX:+UseG1GC -XX:InitiatingHeapOccupancyPercent=30 -XX:MaxGCPauseMillis=10000 -XX:MaxRAMPercentage=70.0 -jar geotax-rest-war-1.0-SNAPSHOT.war
+CMD java -XX:+UseCompressedOops -XX:+UseG1GC -XX:InitiatingHeapOccupancyPercent=30 -XX:MaxGCPauseMillis=10000 -XX:MaxRAMPercentage=70.0 -jar geotax-api-1.0.war

@@ -111,15 +111,12 @@ Following are the ETM (Enterprise Tax Module) to GeoTAX API field mappings being
 |ETM|GeoTAX API|
 |:---------------------------------|:---------------------------------------------------|
 |NumberUserBoundariesFound | taxResponses[n].results[0].numUserBoundariesFound|
-|UserBoundaryn.BoundaryDescription ||
-|taxResponses[n].results[0].userBoundaries[N].boundaryDescription|
+|UserBoundaryn.BoundaryDescription | taxResponses[n].results[0].userBoundaries[N].boundaryDescription|
 |UserBoundaryn.BoundaryID | taxResponses[n].results[0].userBoundaries[N].boundaryID|
 |UserBoundaryn.BufferRelation | taxResponses[n].results[0].userBoundaries[N].bufferRelation|
 |UserBoundaryn.DistanceToBorder | taxResponses[n].results[0].userBoundaries[N].distanceToBorder|
-|UserBoundaryn.SupplementalBoundaryID ||
-|taxResponses[n].results[0].userBoundaries[N].supplementalBoundaryID|
-|UserBoundaryn.BoundaryConfidence ||
-|taxResponses[n].results[0].userBoundaries[N].boundaryConfidence|
+|UserBoundaryn.SupplementalBoundaryID | taxResponses[n].results[0].userBoundaries[N].supplementalBoundaryID|
+|UserBoundaryn.BoundaryConfidence | taxResponses[n].results[0].userBoundaries[N].boundaryConfidence|
 ---
 
 #### Insurance Premium Tax Districts :
@@ -127,10 +124,8 @@ Following are the ETM (Enterprise Tax Module) to GeoTAX API field mappings being
 |ETM|GeoTAX API|
 |:---------------------------------|:---------------------------------------------------|
 |NumberIPDsFound| taxResponses[n].results[0].numTaxDistrictsFound|
-|IPDn.BoundaryBuffer.BufferRelation ||
-|taxResponses[n].results[0].ipds[N].boundaryBuffer.bufferRelation.value|
-|IPDn.BoundaryBuffer.DistanceToBorder ||
-|taxResponses[n].results[0].ipds[N].boundaryBuffer.distanceToBorder.value|
+|IPDn.BoundaryBuffer.BufferRelation | taxResponses[n].results[0].ipds[N].boundaryBuffer.bufferRelation.value|
+|IPDn.BoundaryBuffer.DistanceToBorder | taxResponses[n].results[0].ipds[N].boundaryBuffer.distanceToBorder.value|
 |IPDn.BoundaryConfidence | Not supported (deprecated)|
 |IPDn.DistrictID | taxResponses[n].results[0].ipds[N].districtID|
 |IPDn.DistrictName | taxResponses[n].results[0].ipds[N].districtName|
@@ -164,8 +159,7 @@ Following are the ETM (Enterprise Tax Module) to GeoTAX API field mappings being
 |ETM|GeoTAX API|
 |:---------------------------------|:---------------------------------------------------|
 |NumberPAYsFound | taxResponses[n].results[0].numTaxDistrictsFound|
-|PAYn.BoundaryBuffer.BufferRelation ||
-|taxResponses[n].results[0].ptds[N].boundaryBuffer.bufferRelation.value|
+|PAYn.BoundaryBuffer.BufferRelation | taxResponses[n].results[0].ptds[N].boundaryBuffer.bufferRelation.value|
 |PAYn.BoundaryBuffer.DistanceToBorder | taxResponses[n].results[0].ptds[N].distanceToBorder.value|
 |PAYn.BoundaryConfidence | Not Supported (deprecated)|
 |PAYn.DistrictID | taxResponses[n].results[0].ptds[N].districtId|
@@ -183,10 +177,8 @@ Following are the ETM (Enterprise Tax Module) to GeoTAX API field mappings being
 |ETM|GeoTAX API|
 |:---------------------------------|:---------------------------------------------------|
 |NumberSPDsFound | taxResponses[n].results[0].numTaxDistrictsFound|
-|SPDn.BoundaryBuffer.BufferRelation ||
-|taxResponses[n].results[0].jurisdiction.spds[N].boundaryBuffer.bufferRelation.value|
-|SPDn.BoundaryBuffer.DistanceToBorder ||
-|taxResponses[n].results[0].jurisdiction.spds[N].distanceToBorder.value|
+|SPDn.BoundaryBuffer.BufferRelation | taxResponses[n].results[0].jurisdiction.spds[N].boundaryBuffer.bufferRelation.value|
+|SPDn.BoundaryBuffer.DistanceToBorder | taxResponses[n].results[0].jurisdiction.spds[N].distanceToBorder.value|
 |SPDn.BoundaryConfidence | Not Supported (deprecated)|
 |SPDn.CompiledDate | taxResponses[n].results[0].jurisdiction.spds[N].compiledDate|
 |SPDn.DistrictCode | taxResponses[n].results[0].jurisdiction.spds[N].districtCode|
