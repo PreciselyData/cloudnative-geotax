@@ -20,15 +20,15 @@ data:
     chmod -R u+w /usr/local/rclone-conf
     
     # copy spds locally 
-    xargs -P 4 -I {spd} -a $SPD_LIST/spd.list rclone copy {spd} $LOCAL_ZIP_DIR --config /usr/local/rclone-conf/rclone.conf --error-on-no-transfer --verbose
+    # xargs -P 4 -I {spd} -a $SPD_LIST/spd.list rclone copy {spd} $LOCAL_ZIP_DIR --config /usr/local/rclone-conf/rclone.conf --error-on-no-transfer --verbose
         
     # create destination directory and extract datasets
-    mkdir -p $GTX_DATA
-    for z in $LOCAL_ZIP_DIR/*.zip; do unzip "$z" -d $GTX_DATA; done
+    # mkdir -p $GTX_DATA
+    # for z in $LOCAL_ZIP_DIR/*.zip; do unzip "$z" -d $GTX_DATA; done
 
     #If you need to copy folder from S3 to EFS instead of zip, then uncomment the below code (line 30-31) and comment out the above code (line 23-27)
-    # mkdir -p $GTX_DATA
-    # xargs -P 4 -I {spd} -a $SPD_LIST/spd.list rclone copy {spd} $GTX_DATA --config /usr/local/rclone-conf/rclone.conf --error-on-no-transfer --verbose
+    mkdir -p $GTX_DATA
+    xargs -P 4 -I {spd} -a $SPD_LIST/spd.list rclone copy {spd} $GTX_DATA --config /usr/local/rclone-conf/rclone.conf --error-on-no-transfer --verbose
 
     # clean up
     rm -rf $LOCAL_ZIP_DIR
