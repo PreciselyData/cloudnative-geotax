@@ -77,8 +77,8 @@ spec:
           value: /usr/local/gtx-data
 #        - name: GTX_PREFERENCES
 #          value: /usr/local/gtx-preferences/geotaxPreferences.xml
-        - name: _GEOSTAN_JOURNAL_FILE
-          value: $(GTX_DATA)/geostan.txt
+#        - name: _GEOSTAN_JOURNAL_FILE
+#          value: $(GTX_DATA)/geostan.txt
       nodeSelector:
         node-app: gtx
 ---

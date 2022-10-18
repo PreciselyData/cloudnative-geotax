@@ -51,10 +51,10 @@ spec:
           env:
             - name: GTX_DATA
               value: /usr/local/gtx-data
-            - name: _GEOSTAN_JOURNAL_FILE
-              value: $(GTX_DATA)/geostan.txt
-            - name: JAVA_OPTS
-              value: "-Xmx12G"
+#            - name: _GEOSTAN_JOURNAL_FILE
+#              value: $(GTX_DATA)/geostan.txt
+#            - name: JAVA_OPTS
+#              value: "-Xmx12G"
             - name: POD_CPU_LIMIT
               valueFrom:
                 resourceFieldRef:
