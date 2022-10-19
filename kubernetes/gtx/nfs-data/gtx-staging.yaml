@@ -19,9 +19,6 @@ spec:
       - name: gtx-data
         persistentVolumeClaim:
           claimName: gtx-data-pvc
-#      - name: config-preferences
-#        configMap:
-#          name: gtx-preferences
       - name: config-dataprep
         configMap:
           name: gtx-dataprep-script
@@ -63,9 +60,6 @@ spec:
         volumeMounts:
         - name: gtx-data
           mountPath: /usr/local/gtx-data
-#        - name: config-preferences
-#          mountPath: /usr/local/gtx-preferences/geotaxPreferences.xml
-#          subPath: geotaxPreferences.xml
         - name: config-dataprep
           mountPath: /usr/local/gtx-dataprep
         resources:
@@ -75,10 +69,6 @@ spec:
         env:
         - name: GTX_DATA
           value: /usr/local/gtx-data
-#        - name: GTX_PREFERENCES
-#          value: /usr/local/gtx-preferences/geotaxPreferences.xml
-#        - name: _GEOSTAN_JOURNAL_FILE
-#          value: $(GTX_DATA)/geostan.txt
       nodeSelector:
         node-app: gtx
 ---
